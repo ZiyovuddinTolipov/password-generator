@@ -41,6 +41,26 @@ function App() {
               name='lowercase-letters'
             />
           </div>
+
+          <div className='form-group'>
+            <label htmlFor='include-numbers'>Include  Numbers</label>
+            <input
+              type="checkbox"
+              id='include-numbers'
+              name='include-numbers'
+            />
+          </div>
+
+          <div className='form-group'>
+            <label htmlFor='include-symbols'>Include  Symbols</label>
+            <input
+              type="checkbox"
+              id='include-symbols'
+              name='include-symbols'
+            />
+          </div>
+
+          <button className='generator__btn'>Generator</button>
         </div>
       </div>
     </div>
