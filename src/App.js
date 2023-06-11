@@ -5,7 +5,7 @@ import { numbers, upperCaseLetters, lowerCaseLetters, specialCharacters } from '
 
 function App() {
   const [password, setPassword] = useState('');
-  const [passwordlenght, setPasswordlenght] = useState(20);
+  const [passwordLenght, setPasswordLenght] = useState(20);
   const [includeUppercase, setIncludeUppercase] = useState(false);
   const [includeLowercase, setIncludeLowercase] = useState(false);
   const [includeNumbers, setIncludeNumbers] = useState(false);
@@ -16,20 +16,32 @@ function App() {
     let characterList = ``;
     if (includeLowercase) {
       characterList = characterList + lowerCaseLetters;
-    };
+    }
     if (includeUppercase) {
       characterList = characterList + upperCaseLetters;
-    };
+    }
     if (includeNumbers) {
       characterList = characterList + numbers;
-    };
+    }
     if (includeSymbols) {
       characterList = characterList + specialCharacters;
     }
-
-    setPassword(characterList)
+    // console.log(characterList);
+    setPassword(createPassword(characterList));
   }
+const createPassword = (characterList) => {
+  // console.log(characterList);
+  let password =``;
+  const characterListLenght = characterList.length;
+  // console.log(characterListLenght);
 
+  for (let i = 0; i < passwordLenght; i++){
+    const characterIndex = Math.round(Math.random()*characterListLenght);
+    // console.log(characterIndex);
+    password = password + characterList.charAt(characterIndex);
+  }
+  return password;
+}
   return (
     <div className="App">
       <div className='container'>
@@ -46,8 +58,8 @@ function App() {
           <div className='form-group'>
             <label htmlFor='password-strenght'>Password length</label>
             <input
-              defaultValue={passwordlenght}
-              onChange={(e) => setPasswordlenght(e.target.value)}
+              defaultValue={passwordLenght}
+              onChange={(e) => setPasswordLenght(e.target.value)}
               type="number"
               id='password-strenght'
               name='password-strenght'
