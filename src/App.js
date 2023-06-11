@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import './scss/App.scss';
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  numbers,
+  upperCaseLetters,
+  lowerCaseLetters,
+  specialCharacters
+} from './characters'
 
-import { numbers, upperCaseLetters, lowerCaseLetters, specialCharacters } from './characters'
 
 function App() {
   const [password, setPassword] = useState('');
@@ -13,6 +20,18 @@ function App() {
 
 
   const handleGeneratePassword = (e) => {
+    if (!includeLowercase && !includeUppercase && !includeNumbers && !includeSymbols){
+      toast.error(`You must Select atleast one option`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+    }
     let characterList = ``;
     if (includeLowercase) {
       characterList = characterList + lowerCaseLetters;
@@ -42,16 +61,38 @@ function App() {
     }
     return password;
   }
-  const copyToClipboard = () => {
-    const newTextArea = document.createElement('textarea');
-    newTextArea.inertText =password;
-    document.body.appendChild(newTextArea);
-    newTextArea.select();
-    document.exeCommand('copy');
-    newTextArea.remove();
-  }
+
+  const handleCopy = async (e) => {
+    try {
+      await navigator.clipboard.writeText(password);
+      toast.info('🦄Text copied to clipboard!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      // console.log('Text copied to clipboard.');
+    } catch (error) {
+      toast.error(`Error : ${error}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+      // console.error('Failed to copy text:', error);
+    }
+  };
+
   const handleCopyPassword = (e) => {
-    copyToClipboard();
+    handleCopy();
   }
   return (
     <div className="App">
@@ -65,6 +106,18 @@ function App() {
             <button className='copy__btn' onClick={handleCopyPassword}>
               <i className='far fa-clipboard'></i>
             </button>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss={false}
+              draggable
+              pauseOnHover
+              theme="dark"
+            />
           </div>
           <div className='form-group'>
             <label htmlFor='password-strenght'>Password length</label>
