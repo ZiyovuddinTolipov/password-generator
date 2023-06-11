@@ -29,19 +29,30 @@ function App() {
     // console.log(characterList);
     setPassword(createPassword(characterList));
   }
-const createPassword = (characterList) => {
-  // console.log(characterList);
-  let password =``;
-  const characterListLenght = characterList.length;
-  // console.log(characterListLenght);
+  const createPassword = (characterList) => {
+    // console.log(characterList);
+    let password = ``;
+    const characterListLenght = characterList.length;
+    // console.log(characterListLenght);
 
-  for (let i = 0; i < passwordLenght; i++){
-    const characterIndex = Math.round(Math.random()*characterListLenght);
-    // console.log(characterIndex);
-    password = password + characterList.charAt(characterIndex);
+    for (let i = 0; i < passwordLenght; i++) {
+      const characterIndex = Math.round(Math.random() * characterListLenght);
+      // console.log(characterIndex);
+      password = password + characterList.charAt(characterIndex);
+    }
+    return password;
   }
-  return password;
-}
+  const copyToClipboard = () => {
+    const newTextArea = document.createElement('textarea');
+    newTextArea.inertText =password;
+    document.body.appendChild(newTextArea);
+    newTextArea.select();
+    document.exeCommand('copy');
+    newTextArea.remove();
+  }
+  const handleCopyPassword = (e) => {
+    copyToClipboard();
+  }
   return (
     <div className="App">
       <div className='container'>
@@ -51,7 +62,7 @@ const createPassword = (characterList) => {
           </h2>
           <div className='generator__password'>
             <h3> {password} </h3>
-            <button className='copy__btn'>
+            <button className='copy__btn' onClick={handleCopyPassword}>
               <i className='far fa-clipboard'></i>
             </button>
           </div>
