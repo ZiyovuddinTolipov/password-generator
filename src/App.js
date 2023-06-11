@@ -1,16 +1,33 @@
 import { useState } from 'react';
 import './scss/App.scss';
 
+import { numbers, upperCaseLetters, lowerCaseLetters, specialCharacters } from './characters'
+
 function App() {
-  const [password,setPassword] = useState('');
-  const [passwordlenght,setPasswordlenght] = useState(20);
-  const [includeUppercase,setIncludeUppercase] = useState(false);
-  const [includeLowercase,setIncludeLowercase] = useState(false);
-  const [includeNumbers,setIncludeNumbers] = useState(false);
-  const [includeSymbols,setIncludeSymbols] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordlenght, setPasswordlenght] = useState(20);
+  const [includeUppercase, setIncludeUppercase] = useState(false);
+  const [includeLowercase, setIncludeLowercase] = useState(false);
+  const [includeNumbers, setIncludeNumbers] = useState(false);
+  const [includeSymbols, setIncludeSymbols] = useState(false);
+
 
   const handleGeneratePassword = (e) => {
-    
+    let characterList = ``;
+    if (includeLowercase) {
+      characterList = characterList + lowerCaseLetters;
+    };
+    if (includeUppercase) {
+      characterList = characterList + upperCaseLetters;
+    };
+    if (includeNumbers) {
+      characterList = characterList + numbers;
+    };
+    if (includeSymbols) {
+      characterList = characterList + specialCharacters;
+    }
+
+    setPassword(characterList)
   }
 
   return (
@@ -53,7 +70,7 @@ function App() {
             <label htmlFor='lowercase-letters'>Include Lowercase Letters</label>
             <input
               checked={includeLowercase}
-                onChange={(e) => setIncludeLowercase(e.target.checked)}
+              onChange={(e) => setIncludeLowercase(e.target.checked)}
               type="checkbox"
               id='lowercase-letters'
               name='lowercase-letters'
